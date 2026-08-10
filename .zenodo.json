@@ -8,7 +8,7 @@
       "affiliation": "Independent researcher"
     }
   ],
-  "license": "mit-license",
+  "license": "mit",
   "access_right": "open",
   "version": "0.1.0-theory",
   "language": "eng",
@@ -41,12 +41,12 @@
       "resource_type": "software"
     },
     {
-      "identifier": "arXiv:2101.11628",
+      "identifier": "2101.11628",
       "relation": "cites",
       "scheme": "arxiv"
     },
     {
-      "identifier": "arXiv:1904.12390",
+      "identifier": "1904.12390",
       "relation": "cites",
       "scheme": "arxiv"
     },
