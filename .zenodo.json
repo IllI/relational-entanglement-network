@@ -1,0 +1,60 @@
+{
+  "title": "Relational Clock Networks and Self-Timed Quantum States: a theory-first research program",
+  "upload_type": "software",
+  "description": "<p>A research program testing whether temporal information in an engineered quantum network can be represented entirely by <em>relations among physical clocks</em>, with no privileged master clock required by the model. It is the successor to the Page-Wootters program in <a href=\"https://github.com/IllI/relational-time-ibm-quantum\">relational-time-ibm-quantum</a>, and begins where that program's limitation 2 (the clock is chosen, not derived) ends.</p><p><strong>Status: theory layer only. No hardware run has been executed.</strong> This release contains a four-run progression, its honest boundaries, and four structural results derived at zero QPU cost, provided as an executable verification script rather than as prose:</p><ul><li><strong>Rate loop closure is automatic, not contingent.</strong> For the three-clock relational state the pairwise rates telescope to 1 identically, so a run pre-registering &quot;the loop closes&quot; would be measuring a theorem. The discriminating content lies in whether control networks admit any consistent assignment at all.</li><li><strong>A clock is a usable reference frame only if gcd(rate, d) = 1.</strong> Using a clock as a frame requires recovering the shared label from its readings, which requires injectivity. At d = 12 only 4 of 11 rates qualify. This is distinct from cycle-closure commensurability: it concerns resolution, not return.</li><li><strong>Relativistic time dilation is a trade, not an accelerator.</strong> A dilated node's Earth-frame storage lengthens by gamma while its local operations per Earth-second fall by the same gamma, leaving operations-per-coherence-time unchanged. At achievable velocities gamma-1 is of order 1e-10, so relativistic dynamics are programmed into circuits rather than physically present. The machinery reproduces the standard GPS budget (-7.21 SR, +45.72 GR, +38.50 us/day net) as a check.</li><li><strong>Capacity ceiling.</strong> Holevo and superdense coding bound the payload, so any &quot;semantic compression&quot; must be earned in the classical layer. The quantum layer's claim is transport of relational structure, not information density.</li></ul><p>These results exist because the predecessor program spent two hardware runs measuring a quantity fixed by construction. The rule they encode governs this repository: derive whether a quantity is contingent before designing a run to measure it.</p>",
+  "creators": [
+    {
+      "name": "O'Néill, Caoimhín",
+      "affiliation": "Independent researcher"
+    }
+  ],
+  "license": "mit-license",
+  "access_right": "open",
+  "version": "0.1.0-theory",
+  "language": "eng",
+  "keywords": [
+    "quantum reference frames",
+    "relational time",
+    "Page-Wootters mechanism",
+    "quantum clocks",
+    "clock networks",
+    "quantum teleportation",
+    "quantum memory",
+    "relativistic quantum information",
+    "proper time",
+    "D-LinOSS",
+    "state-space models",
+    "pre-registration",
+    "quantum information theory"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/IllI/relational-time-ibm-quantum",
+      "relation": "isNewVersionOf",
+      "scheme": "url",
+      "resource_type": "software"
+    },
+    {
+      "identifier": "https://github.com/IllI/twisted-spin-ptm",
+      "relation": "isSupplementTo",
+      "scheme": "url",
+      "resource_type": "software"
+    },
+    {
+      "identifier": "arXiv:2101.11628",
+      "relation": "cites",
+      "scheme": "arxiv"
+    },
+    {
+      "identifier": "arXiv:1904.12390",
+      "relation": "cites",
+      "scheme": "arxiv"
+    },
+    {
+      "identifier": "10.1103/PhysRevA.89.052122",
+      "relation": "cites",
+      "scheme": "doi"
+    }
+  ],
+  "notes": "Theory-layer release; no hardware results are claimed. The predecessor program's simulation phase was funded by a Google TPU Research Cloud (TRC) v6e grant, 2026-04-21 to 2026-06-21, and its hardware phase used the IBM Quantum Open Plan. The views expressed are those of the author and do not reflect the official policy or position of IBM, the IBM Quantum team, or Google."
+}

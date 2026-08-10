@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "Relational Clock Networks and Self-Timed Quantum States: a theory-first research program"
+abstract: >-
+  A research program testing whether temporal information in an engineered
+  quantum network can be represented entirely by relations among physical
+  clocks, with no privileged master clock required by the model. Theory layer
+  only; no hardware run has been executed. Contains a four-run progression and
+  four structural results derived at zero QPU cost and supplied as executable
+  verification: rate loop closure is automatic rather than contingent; a clock
+  is a usable reference frame only if gcd(rate, d) = 1; relativistic time
+  dilation trades local throughput for Earth-frame storage rather than
+  accelerating computation, and is negligible at achievable velocities; and
+  Holevo/superdense bounds require any semantic compression to be earned in the
+  classical layer.
+type: software
+version: 0.1.0-theory
+license: MIT
+authors:
+  - family-names: "O'Néill"
+    given-names: "Caoimhín"
+keywords:
+  - quantum reference frames
+  - relational time
+  - quantum clocks
+  - relativistic quantum information
+  - pre-registration
