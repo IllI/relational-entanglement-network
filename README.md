@@ -1,6 +1,6 @@
 # Relational Clock Networks and Self-Timed Quantum States
 
-**Program 3.** A second research line, deliberately separate from the
+A second research line, deliberately separate from the
 Page–Wootters program in
 [relational-time-ibm-quantum](https://github.com/IllI/relational-time-ibm-quantum),
 which is complete at eleven hardware runs and stands on its own.

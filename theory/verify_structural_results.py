@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Program 3, theory layer: what is CONTINGENT and what is forced.
+"""Theory layer: what is CONTINGENT and what is forced.
 
 This program's predecessor spent two hardware runs (IBM-6, IBM-8) measuring a
 quantity that was fixed by construction -- the constraint eigenvalue of a
@@ -8,7 +8,7 @@ phase for hardware to find. The standing rule that came out of it:
 
     DERIVE WHETHER A QUANTITY IS CONTINGENT BEFORE DESIGNING A RUN TO MEASURE IT.
 
-This file applies that rule to Program 3 BEFORE any circuit exists. It is
+This file applies that rule to this program BEFORE any circuit exists. It is
 executable so the claims can be checked rather than believed. No dependencies
 beyond numpy; no QPU; runs in under a second.
 
@@ -167,7 +167,8 @@ def result4_capacity_ceiling() -> bool:
 
 if __name__ == "__main__":
     print("=" * 74)
-    print("Program 3 -- structural results derived BEFORE any run is designed")
+    print("relational-entanglement-network -- structural results,")
+    print("derived BEFORE any run is designed")
     print("=" * 74 + "\n")
     results = [result1_loop_closure(), result2_invertibility(),
                result3_relativistic_budget(), result4_capacity_ceiling()]
