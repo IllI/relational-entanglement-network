@@ -1,27 +1,33 @@
 cff-version: 1.2.0
 message: "If you use this work, please cite it as below."
-title: "Relational Clock Networks and Self-Timed Quantum States: a theory-first research program"
+title: "One Law, Two Exact Nulls: what coherence measures, and what it cannot certify"
 abstract: >-
-  A research program testing whether temporal information in an engineered
-  quantum network can be represented entirely by relations among physical
-  clocks, with no privileged master clock required by the model. Theory layer
-  only; no hardware run has been executed. Contains a four-run progression and
-  four structural results derived at zero QPU cost and supplied as executable
-  verification: rate loop closure is automatic rather than contingent; a clock
-  is a usable reference frame only if gcd(rate, d) = 1; relativistic time
-  dilation trades local throughput for Earth-frame storage rather than
-  accelerating computation, and is negligible at achievable velocities; and
-  Holevo/superdense bounds require any semantic compression to be earned in the
-  classical layer.
+  A synthesis of two independently-run hardware programmes, containing no new
+  measurements. Both are shown to measure the same function: coherence
+  surviving as a product of half-angle state overlaps, one factor per party
+  that has acquired distinguishing information -- one programme measuring it
+  against coupling angle, the other against time. Their two internal nulls,
+  each predicted and pre-registered, then settle what that function certifies:
+  the same observable reads exactly zero on a separable state and on a
+  maximally entangled one. Certification of quantum structure therefore
+  requires agreement across incompatible measurements, a conclusion the two
+  programmes reached independently from opposite directions. Includes the
+  derived bounds -- Holevo capacity and the relativistic storage/throughput
+  trade -- that answer the engineering questions the line began with.
 type: software
-version: 0.1.0-theory
+version: 0.2.0-synthesis
 license: MIT
 authors:
   - family-names: "O'Neill"
     given-names: "Kevin"
 keywords:
-  - quantum reference frames
-  - relational time
-  - quantum clocks
-  - relativistic quantum information
+  - quantum information
+  - entanglement witness
+  - decoherence
+  - quantum coherence
+  - Page-Wootters mechanism
+  - Pauli transfer matrix
+  - measurement diversity
+  - certification
+  - Holevo bound
   - pre-registration

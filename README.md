@@ -1,232 +1,185 @@
-# Relational Clock Networks and Self-Timed Quantum States
+# One Law, Two Exact Nulls: what coherence measures, and what it cannot certify
 
-A second research line, deliberately separate from the
-Page–Wootters program in
-[relational-time-ibm-quantum](https://github.com/IllI/relational-time-ibm-quantum),
-which is complete at eleven hardware runs and stands on its own.
+**A synthesis of two independently-run hardware programmes.** It contains no
+new measurements. Its contribution is the identification that its two companion
+programmes measured the *same function*, and the demonstration that their two
+internal nulls — taken together — settle what that function certifies. Neither
+companion can make the claim alone.
 
-**Status: theory layer only. No hardware run has been executed.** What exists
-here is a four-run progression, its honest boundaries, and four structural
-results derived at zero QPU cost — three of which constrain the run designs
-before any circuit is written.
+The companions:
 
-> **This is not a cold start.** Two of those four results are the mature
-> answers to concrete engineering questions asked at the beginning of a
-> two-year line of work — *can entangled states carry compressed data off a
-> satellite*, and *does time dilation buy processing headroom* — and both
-> answers are **no**, for reasons now derivable rather than discoverable by
-> another expensive run. [`docs/PROGRAM_HISTORY.md`](docs/PROGRAM_HISTORY.md)
-> is the account: the yin/yang semantic-transport experiments, the TPU
-> campaign and its falsified hypotheses, the astrophysics deviation where
-> D-LinOSS failed its promotion gates, and the eleven QPU runs that followed.
+- **[twisted-spin-ptm](https://github.com/IllI/twisted-spin-ptm)** — the
+  Pauli-transfer-matrix structure of one-axis-twisting boundary channels.
+  Coherence measured against **coupling angle**.
+  [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21878783.svg)](https://doi.org/10.5281/zenodo.21878783)
+- **[relational-time-ibm-quantum](https://github.com/IllI/relational-time-ibm-quantum)**
+  — whether relational time leaves a quantum signature distinguishable from its
+  classical mimic; eleven pre-registered runs, 72 jobs. Coherence measured
+  against **time**.
+  [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21878786.svg)](https://doi.org/10.5281/zenodo.21878786)
+
+Every load-bearing claim below is checkable in under a second:
+
+```bash
+python theory/verify_companion_result.py
+```
 
 ---
 
-## The thesis
+## 1. One law
 
-> Temporal information in an engineered quantum network can be represented
-> entirely by **relations among physical clocks**, with no privileged master
-> clock required by the model.
+`cos(θ/2)` is the overlap between two qubit states separated by Bloch angle
+`θ`. Both programmes measure coherence surviving as a **product of those
+overlaps — one factor for every party that has acquired distinguishing
+information.**
 
-The predecessor program established what relational-time observables certify,
-and closed with a history state shown entangled, ray-stationary, and internally
-evolving on a single preparation. But it always **chose** its clock. That was
-limitation 2 of that paper, and it is the target here.
-
-The operational claim this program could support — not a claim about nature:
-
-```
-local states alone      ⇏   temporal order
-network of relations     ⇒   recoverable temporal order
-```
-
-Concretely: hold every local marginal `ρ_A, ρ_B, ρ_C` fixed, alter **only** the
-relational correlations, and show the reconstructable temporal ordering
-changes. Then switch among reference clocks and recover mutually consistent
-descriptions. Then certify the network correlations are genuinely quantum.
-
-This is closely aligned with existing spacetime quantum-reference-frame theory,
-where dynamics are described from the proper time of physical quantum clocks
-and superpositions of proper times can arise
-([arXiv:2101.11628](https://arxiv.org/abs/2101.11628)).
-
----
-
-## Structural results, derived before any run
-
-`python theory/verify_structural_results.py` — no dependencies beyond numpy,
-no QPU, under a second. These exist because the predecessor program **spent two
-hardware runs measuring a quantity that was fixed by construction** (IBM-6 and
-IBM-8, chasing an eigenvalue that was `+1` by a two-line argument). The rule
-that came out of it governs this repository:
-
-> **Derive whether a quantity is contingent before designing a run to measure
-> it.**
-
-### 1. Rate loop closure is automatic — do not make it a gate
-
-For `|Ψ⟩ = (1/√d) Σ_t |t⟩_A |αt⟩_B |βt⟩_C`, the pairwise rates telescope:
-
-```
-α_AB = α        α_BC = β/α        α_CA = 1/β
-α_AB · α_BC · α_CA = 1        identically, for all α, β
-```
-
-Verified exhaustively for `d ∈ {8, 12, 16}` over all `(α, β)`. **A run
-pre-registering "the loop closes" would be measuring a theorem.** The
-contingent content is whether *control* networks admit any consistent
-assignment at all — that is the discriminating test, and the claim must be a
-comparison rather than a verification.
-
-### 2. A clock is a usable reference frame only if `gcd(rate, d) = 1`
-
-Using B as the clock requires recovering the shared label from B's readings,
-which requires `t ↦ αt mod d` to be injective. At `d = 12` only **4 of 11**
-rates qualify (`α ∈ {1, 5, 7, 11}`). This is a hard design constraint on Run A,
-and it is distinct from the predecessor's commensurability result — that one is
-about exact cycle closure after `d` ticks, this is about whether a clock has
-the **resolution** to index the others at all.
-
-*(A first draft of this check tested the wrong direction and reported a false
-mismatch. It is written as executable code precisely so that such errors
-surface. The corrected form is in the file.)*
-
-### 3. Relativistic time dilation is a trade, not an accelerator
-
-| γ | Earth-frame storage | local ops per Earth-second | ops per coherence time |
+| | measured quantity | form | what the exponent counts |
 |---|---|---|---|
-| 2 | ×2 | ×0.5 | **×1 — unchanged** |
-| 10 | ×10 | ×0.1 | **×1 — unchanged** |
+| **twisted-spin-ptm** | `T_xx = cos(χt/2)^(N−2)` | overlap^(N−2) | the `N−2` bulk spins, each learning partial *which-state* information about the boundary pair |
+| **relational-time** | `ρ_C[t,t'] = cos((t−t')·π/d)` | overlap¹ | *which-time* distinguishability between two clock records |
+| **relational-time** (IBM-1) | witness `∝ cos(μ/2)^p` | overlap^p | environment modes coupled to the clock at strength `μ` |
 
-If a memory's `T₂` is defined in local proper time, an Earth observer sees
-`exp(−t/(γT₂))` — storage lengthened by γ in *Earth-frame* seconds — while
-local operations per Earth-second fall by exactly the same γ. **A dilated node
-does not compute more; it computes less, more slowly.** The only niche is when
-the figure of merit is Earth-frame duration (waiting for an orbital pass) and
-no local processing is needed meanwhile.
+The identification is **exact, not analogical**. At `d = 8` adjacent clock
+records overlap at `0.923880`; `cos(π/4 / 2) = 0.923880`. The clock-record
+overlap *is* the half-angle state overlap, and the OAT boundary element is that
+same overlap raised to the number of informed spins.
 
-And the magnitude kills it as a technology:
+> **Entanglement decay and temporal distinguishability are the same
+> bookkeeping.** Information leaving a subsystem is simultaneously entanglement
+> lost and moments becoming distinguishable. One programme measures it against
+> coupling angle; the other against time.
 
-| platform | β | γ−1 | storage gain |
-|---|---|---|---|
-| ISS (LEO) | 2.6×10⁻⁵ | 3.3×10⁻¹⁰ | 3×10⁻⁸ % |
-| GPS (MEO) | 1.3×10⁻⁵ | 8.3×10⁻¹¹ | 8×10⁻⁹ % |
-| Parker Solar Probe | 6.4×10⁻⁴ | 2.1×10⁻⁷ | 2×10⁻⁵ % |
+## 2. Two exact nulls
 
-The machinery reproduces the standard GPS budget as a check
-(SR −7.21 + GR +45.72 = **+38.50 µs/day**, published +38). **Run D therefore
-programs relativistic rates into a circuit; it never contains relativity.**
+Each programme has an exact structural zero. Each was **predicted from theory,
+pre-registered, and confirmed on hardware** — these are the internal controls
+that validated each apparatus, the results each line trusted most.
 
-### 4. Capacity ceiling — the compression must be classical
+```
+twisted-spin-ptm, χt = π      relational-time, d = 2
+T_xx        = 0.000000        witness TVD  = 0.000000
+ρ₂          = I/4 exactly     state        = Bell pair
+concurrence = 0.000000        entanglement = 1.0000 ebits
+→ SEPARABLE                   → MAXIMALLY ENTANGLED
+```
 
-Holevo bounds `n` transmitted qubits at `n` classical bits without pre-shared
-entanglement; superdense coding reaches `2n` with it. There is no regime where
-a handful of qubits releases terabytes. **"Semantic compression" must earn its
-compression conventionally** — redundancy, low-dimensional latent structure,
-task relevance — which is exactly the classical/D-LinOSS layer's job. The
-quantum layer's claim is *transport of relational structure*, not information
+**The same observable reads exactly zero on a separable state and on a
+maximally entangled one.**
+
+This is not an argument that the coherence observable is entanglement-blind. It
+is a *measurement* of it, at both extremes of the entanglement spectrum, using
+each programme's most trusted result. No single reading of this quantity —
+however precise, however replicated, however well it fits theory — carries
+information about whether the underlying state is entangled.
+
+**Neither repository can demonstrate this alone.** One null shows the observable
+vanishing on a separable state; the other shows it vanishing on a maximally
+entangled one. The demonstration requires both, which is the reason this
+repository exists.
+
+## 3. The convergent resolution
+
+Both programmes then hit the same wall from opposite directions, and neither
+anticipated the other's version:
+
+| | how it appeared | how it was resolved |
+|---|---|---|
+| **twisted-spin-ptm** | entanglement is not identifiable from PTM anisotropy alone | `V_Q` over Haar-random measurement settings |
+| **relational-time** | no single local product-basis distribution certifies clock–system entanglement *(proved, then verified adversarially)* | multi-setting fidelity witness exceeding the exact separable bound `λ_max = ½` |
+
+The relational-time programme reached its version the hard way. It built two
+adversarial states against its own results — a zero-entanglement product state
+scoring **4.2× higher** on the coherence witness than the real history state,
+and a separable state scoring **1.7× higher** on the joint witness built to
+repair it — before a two-line theorem generalized the failure.
+
+**The combined statement:**
+
+> The survival of entanglement and the distinguishability of moments are the
+> same quantity, measured in different variables: a product of state overlaps,
+> one factor per informed party. That quantity is measurable to high precision,
+> scales as predicted, and has exact structural nulls in both programmes — and
+> it certifies nothing. Certification of quantum structure requires agreement
+> across incompatible measurements, a conclusion two independent programmes
+> reached from opposite directions.
+
+What follows is a **certification threshold**, and it is higher than the
+observables usually offered as evidence for relational time can reach.
+Conditional evolution is reproduced by a classical clock control. Local clock
+coherence is beaten by a state with zero entanglement. Single-basis joint
+correlation is beaten by a separable state. What survives is a multi-setting
+witness — and, in the relational-time programme's final run, a single 3-qubit
+preparation certified **entangled, stationary as a quantum ray, and internally
+evolving simultaneously**.
+
+## 4. Why the applied version does not work
+
+This line began with two engineering questions about moving information off a
+spacecraft. Both now have derived answers, and both are negative — which is
+what makes them useful.
+
+**Can entangled states carry compressed observations for downlink?**
+Bounded, hard. Holevo limits `n` transmitted qubits to `n` classical bits
+without pre-shared entanglement; superdense coding reaches `2n` with it. No
+regime releases terabytes. Compression must be earned in the **classical layer,
+before encoding** — which is exactly where the semantic-transport experiments
+hit their codec ceiling, approached from the opposite direction. The quantum
+layer's contribution is **transport of relational structure**, not information
 density.
 
----
+**Does relativistic time dilation buy processing headroom?**
+No — it is a trade. Earth-frame storage lengthens by `γ` while local operations
+per Earth-second fall by the same `γ`, leaving operations-per-coherence-time
+unchanged. A dilated node computes *less*, not more. At achievable velocities
+`γ − 1 ≈ 10⁻¹⁰` (ISS: `3.3 × 10⁻¹⁰`), so the effect is programmable in a
+circuit and absent in practice.
 
-## The four runs
+Where those questions came from, and the experiments that asked them:
+[`docs/PROGRAM_HISTORY.md`](docs/PROGRAM_HISTORY.md).
 
-Each is a separate pre-registered experiment, hardest last. **None has been
-executed.**
+## 5. The open frontier
 
-### Run A — Relational network
-Three clocks, no master clock anywhere in the measurements. Reconstruct
-mutually consistent histories from pairwise correlations alone; then rewire or
-sever correlations **while preserving every local marginal** and show
-reconstruction fails. Result 2 constrains the rate choices; result 1 says loop
-closure is a prep consistency check, never a physics gate.
+The law was established with **spins** as the informed parties
+(twisted-spin-ptm), and with **clock registers and environment modes**
+(relational-time). The natural next question is whether it holds when the
+informed parties are **field modes**.
 
-Controls, following the predecessor's adversarial method: shuffle `A↔B`
-pairing; sever `B↔C`; reverse one edge; substitute a classically correlated
-mixture; detune one rate; randomly rewire labels.
+Status: **open, and barely started.** The Dicke model is the legitimate route —
+genuine light–matter coupling, reducing to OAT in the adiabatic limit
+(`χ_eff = g²/ω_m`) — and it was characterized once during the TPU campaign,
+returning `K_eff = 1, γ_dom ≈ 0` at `N ∈ {2,4,6}`, cleanly separated from OAT
+by damping alone. **That is a fingerprint, not a cosine-law test.** Nothing
+measured so far tracks how coherence decays against field occupation.
 
-### Run B — Self-timed semantic state
-Encode a small semantic alphabet into a history state carrying a clock and
-subclock:
+Three further directions are specified but unexecuted in
+[`docs/FUTURE_WORK.md`](docs/FUTURE_WORK.md).
 
-```
-|Ψ_m⟩ = Σ_t A_m(t) |t⟩_clock-network ⊗ |φ_m(t)⟩_payload
-```
+## 6. What this does not claim
 
-Test held-out semantic recovery **only with the correct relational frame**,
-against explicit wrong-frame and swapped-frame controls.
-
-### Run C — Relational-state teleportation
-Teleport that logical state and certify four things at the receiver: state
-fidelity, semantic identity, the internal clock/subclock trajectory, and
-clock–payload entanglement. The question is whether **relational history itself
-is transportable as quantum information**.
-
-### Run D — Relativistic frame emulation
-Program differing proper-time rates, memory decoherence, and phase
-accumulation. Compare uncompensated transport against analytic relativistic
-correction, linear/Kalman filtering, and D-LinOSS. The real question is whether
-a *learned* relational-frame observer improves fidelity under noisy,
-time-varying channels — which is where D-LinOSS's structural role from the
-predecessor program carries over.
-
----
-
-## What this program could and could not claim
-
-**Could**, if all four succeeded:
-
-> In this engineered system, all experimentally recoverable temporal
-> information is carried by a self-consistent network of relations among
-> subsystems. No single subsystem contains the ordering, no privileged master
-> clock is needed to reconstruct it, and rewiring the relations destroys the
-> common temporal description while leaving every local marginal unchanged.
-
-**Could not**, under any outcome:
-
-- That this is how time works in nature. The relativistic dynamics are
-  programmed into the circuit; the state is prepared by externally timed gates
-  in ordinary laboratory time.
-- That the clock is *derived*. Even full success shows no **unique** master
-  clock is needed among clocks we chose and engineered.
-- Any information-density advantage. See result 4.
-- Any computational speedup from time dilation. See result 3.
-
-The right framing for the applied end of this program is:
-
-> A distributed system compresses raw observations into task-relevant semantic
-> representations, encodes selected information into self-timed relational
-> quantum states, and uses quantum memories plus relativistic reference-frame
-> tracking to preserve and route those states asynchronously between moving
-> nodes.
-
-For ordinary classical datasets, classical compression and networking remain
-the sensible baseline and this scheme would have to beat them to justify
-itself. The genuine motivation is **quantum-generated data**: distributed
-quantum sensors whose states you would rather move than measure and
-classicalize at the remote node.
-
----
+- **No new measurements.** A synthesis of two completed programmes plus
+  derivations. The original contributions are the exact identification, the
+  matched-null demonstration, and the applied bounds.
+- **Nothing about quantum electrodynamics.** No gauge field, photon, or vacuum
+  appears in either programme: OAT is a spin model and the Page–Wootters clock
+  is engineered qubits. See §5 for the honest route toward field states.
+- **Nothing about time in nature.** Neither companion claims time is emergent,
+  tests the Wheeler–DeWitt constraint, or realizes a physical Page–Wootters
+  universe. Both states are prepared by externally timed gates, and both
+  clock/system splits are imposed rather than derived.
+- **Not peer-reviewed.** These are archived research records.
 
 ## Repository layout
 
 ```
-theory/     structural results, executable (verify_structural_results.py)
-docs/       per-run specifications as they are written
+theory/     the companion result, executable end to end
+            (verify_companion_result.py) -- numpy only, no QPU
+docs/       PROGRAM_HISTORY.md   where the questions came from
+            FUTURE_WORK.md       specified but unexecuted directions
 ```
-
-## Relationship to the other programs
-
-- **Paper 1** — [twisted-spin-ptm](https://github.com/IllI/twisted-spin-ptm):
-  OAT / bi-twistor PTM. Source of the `V_Q` many-settings certification
-  standard.
-- **Paper 2** — [relational-time-ibm-quantum](https://github.com/IllI/relational-time-ibm-quantum):
-  the Page–Wootters program, complete at 11 runs / 72 jobs. This program begins
-  where its limitation 2 ends.
 
 ## Acknowledgments
 
-Google TPU Research Cloud (TRC) funded the simulation phase of the predecessor
-program (`v6e`, 2026-04-21 → 2026-06-21), which produced the D-LinOSS lineage
-and the certification standard this program inherits. IBM Quantum Open Plan
-provided the hardware for the predecessor's eleven runs.
+Research supported with Cloud TPUs from Google's TPU Research Cloud (TRC). The
+TRC allocation supported the simulation and hypothesis-development phase of the
+companion programmes; their hardware experiments used separate IBM Quantum Open
+Plan access.
