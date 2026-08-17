@@ -200,6 +200,19 @@ returning `K_eff = 1, γ_dom ≈ 0` at `N ∈ {2,4,6}`, cleanly separated from O
 by damping alone. **That is a fingerprint, not a test of the law against field
 occupation.**
 
+**The priority next run** is not on that frontier — it is a direct hardware
+test of §2. Sweep a single parameter from the product state to the Bell state
+and measure *both* the marginal witness and CHSH on each state. Exactly, the
+witness runs `0.5000 → 0.0000` while CHSH runs `2.0000 → 2.8284`: the state
+that maximizes the coherence witness sits at the classical Bell boundary, and
+the state saturating Tsirelson's bound has a witness of exactly zero. On ideal
+pure states that relationship is forced; **on hardware it is contingent**,
+because prepared states are mixed and decoherence attacks marginal coherence
+and nonlocal correlation through different channels. Two qubits, ~25 circuits —
+the cheapest decisive run this line has proposed, and it closes the loop back to
+the CHRONOS telemetry nulls:
+[`docs/NEXT_RUN_PROPOSAL.md`](docs/NEXT_RUN_PROPOSAL.md).
+
 Three further directions are specified but unexecuted in
 [`docs/FUTURE_WORK.md`](docs/FUTURE_WORK.md).
 
