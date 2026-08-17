@@ -1,19 +1,24 @@
 cff-version: 1.2.0
 message: "If you use this work, please cite it as below."
-title: "One Law, Two Exact Nulls: what coherence measures, and what it cannot certify"
+title: "One Law, and a Witness That Runs Backwards"
 abstract: >-
   A synthesis of two independently-run hardware programmes, containing no new
-  measurements. Both are shown to measure the same function: coherence
-  surviving as a product of half-angle state overlaps, one factor per party
-  that has acquired distinguishing information -- one programme measuring it
-  against coupling angle, the other against time. Their two internal nulls,
-  each predicted and pre-registered, then settle what that function certifies:
-  the same observable reads exactly zero on a separable state and on a
-  maximally entangled one. Certification of quantum structure therefore
-  requires agreement across incompatible measurements, a conclusion the two
-  programmes reached independently from opposite directions. Includes the
-  derived bounds -- Holevo capacity and the relativistic storage/throughput
-  trade -- that answer the engineering questions the line began with.
+  measurements. Both are shown to measure the same law: coherence surviving as
+  a product of half-angle state overlaps, one factor per party that has
+  acquired distinguishing information -- one programme measuring it against
+  coupling angle, the other against time. Read on a marginal, that law produces
+  an observable which is not merely uninformative about entanglement but
+  suppressed by it, since for a bipartite pure state the marginal entropy is
+  the entanglement entropy. A zero-entanglement product state therefore scores
+  higher than a maximally entangled history state at every clock dimension, and
+  the exact d=4 ratio of 4.24 reproduces the 4.2x measured on hardware in an
+  adversarial run. Two exact structural nulls, one on a separable state and one
+  on a maximally entangled state, follow from the same mechanism. Certification
+  of quantum structure therefore requires agreement across incompatible
+  measurements, a conclusion reached independently by both programmes and by a
+  third line elsewhere. Includes the derived Holevo and relativistic
+  storage/throughput bounds that answer the engineering questions the line
+  began with.
 type: software
 version: 0.2.0-synthesis
 license: MIT
