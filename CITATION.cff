@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use this work, please cite it as below."
 title: "One Law, and a Witness That Runs Backwards"
 abstract: >-
-  A synthesis of two independently-run hardware programmes, containing no new
-  measurements. Both are shown to measure the same law: coherence surviving as
+  A synthesis of two independently-run hardware programmes, with one dedicated
+  hardware run of its own. Both are shown to measure the same law: coherence surviving as
   a product of half-angle state overlaps, one factor per party that has
   acquired distinguishing information -- one programme measuring it against
   coupling angle, the other against time. Read on a marginal, that law produces
@@ -20,7 +20,7 @@ abstract: >-
   storage/throughput bounds that answer the engineering questions the line
   began with.
 type: software
-version: 0.2.0-synthesis
+version: 0.3.0
 license: MIT
 authors:
   - family-names: "O'Neill"

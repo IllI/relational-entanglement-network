@@ -1,10 +1,15 @@
 # One Law, and a Witness That Runs Backwards
 
-**A synthesis of two independently-run hardware programmes.** It contains no
-new measurements. Its contribution is that the two programmes measured the same
+**A synthesis of two independently-run hardware programmes, with one dedicated
+run of its own.** Its contribution is that the two programmes measured the same
 law, and that reading that law on a *marginal* — as the relational-time
 literature does — produces an observable which is not merely uninformative
 about entanglement but **suppressed by it**.
+
+That claim was derived here first, then tested: a purpose-built sweep on
+`ibm_marrakesh` measured the witness and CHSH on the same states from a product
+state to a Bell pair and found them anti-correlated at **`r = −0.9573`**, with
+the witness peaking exactly where the Bell violation vanishes (§2).
 
 The companions:
 
@@ -74,11 +79,52 @@ construction.** Evaluated exactly:
 
 The witness is *highest* exactly where entanglement is *zero*.
 
-**This predicts a hardware number.** The relational-time programme's IBM-2 run
-prepared a zero-entanglement product state as an adversarial control and
-measured it scoring **4.2× higher** than the real history state at `d = 4`. The
-exact ratio above is `0.750 / 0.176777 = 4.24`. The adversary did not exploit a
-loophole — it saturated a quantity that entanglement necessarily suppresses.
+**This predicts a hardware number, retrodictively.** The relational-time
+programme's IBM-2 run prepared a zero-entanglement product state as an
+adversarial control and measured it scoring **4.2× higher** than the real
+history state at `d = 4`. The exact ratio above is `0.750 / 0.176777 = 4.24`.
+The adversary did not exploit a loophole — it saturated a quantity that
+entanglement necessarily suppresses.
+
+### Measured directly (IBM-11, 2026-08-17)
+
+Retrodiction is weaker than a test, so the sweep was run. One parameter, from a
+product state to a Bell pair, measuring the marginal witness **and** CHSH on
+each state — 53 circuits, two qubits, `ibm_marrakesh`, 9/9 pre-registered gates
+([full results](https://github.com/IllI/relational-time-ibm-quantum/blob/main/docs/AQ_PAGE_WOOTTERS_IBM_11_RESULTS_2026-08-17.md)).
+
+| λ | witness (exact) | CHSH (exact) |
+|---|---|---|
+| 0.00 | **0.4830** (0.5000) | **1.8605** (2.0000) |
+| 0.25 | 0.4480 (0.4619) | 1.9995 (2.1414) |
+| 0.50 | 0.3325 (0.3536) | 2.3085 (2.4495) |
+| 0.75 | 0.1923 (0.1913) | 2.5500 (2.7229) |
+| 1.00 | **0.0100** (0.0000) | **2.6565** (2.8284) |
+
+**Witness–CHSH correlation `r = −0.9573`.**
+
+Two things make this a test rather than a demonstration. **The state that
+maximises the witness produced no Bell violation at all** — CHSH `1.8605`,
+below the classical bound, at the same λ where the witness peaks. That was the
+gate written to falsify the framing, and it held.
+
+And **the anti-correlation was not guaranteed to survive.** For ideal *pure*
+states it is forced, because marginal entropy is entanglement entropy — but
+hardware states are mixed, where that identity fails and decoherence attacks
+marginal coherence and nonlocal correlation through different channels at
+different rates. Whether the relationship survived was genuinely open.
+
+The exact trade-off held too, as *structure* rather than value:
+
+```
+S² + 16W² :  7.1941  7.2093  7.0981  7.0939  7.0586
+             mean 7.1308 (ideal 8.0, attenuation 0.891)
+             spread 0.1507 against a ±1.1390 band
+```
+
+Decoherence lowers the level; it does not bend the curve. The spread is an
+order of magnitude inside tolerance, and *flatter* than the noisy simulator
+predicted (0.4994 at attenuation 0.821) — the run beat its own noise model.
 
 ## 3. Two exact nulls
 
@@ -129,6 +175,34 @@ Same mechanism as §2, arrived at independently — and a concrete protocol for
 the device-dependence limitation the relational-time programme records but does
 not close.
 
+**And the excess is separably reproducible — measured.** IBM-11 added an arm
+for it. Our `|Φ⁺⟩` anti-coincidence reproduces `R(θ)` exactly (six decimals,
+verified pre-submission), and at the peak-excess angle:
+
+```
+θ = 140.5°     Bell  +0.0650      product  +0.0590      |gap| 0.0060
+                                              (3σ empirical = 0.0414)
+CHSH           Bell   2.6565      product    1.8605      gap   0.7960
+```
+
+**A zero-entanglement product state reproduces the synchronisation excess to
+within 0.006, while CHSH separates the same two states by 0.80.** `R(θ)` is a
+single-setting joint rate, so the theorem in §5 applies to it directly: such a
+distribution is separably reproducible and cannot certify nonclassicality.
+
+This is the **third independent instance** of that theorem — after the
+clock-coherence witness and single-basis joint correlation — and the first
+demonstrated against an observable from outside the programme. It is not a
+criticism of the certification in that paper, which rests on CHSH and agrees
+with everything here; it bounds what the excess *alone* supports.
+
+The construction also supplied two exact internal nulls for free: the quantum
+and benchmark curves cross identically at `θ = 90°` and `θ = 180°`, so any
+measured excess there is instrumental. Their scatter calibrated the error bar —
+and caught a real mistake, since gating on shot noise alone failed by 0.0003. A
+*rate* measured under readout error carries a bias that `√(p(1−p)/N)` cannot
+see.
+
 ## 5. The certification threshold
 
 Both programmes hit the wall independently and resolved it the same way:
@@ -156,7 +230,8 @@ it — before a two-line theorem generalized the failure.
 What follows is a **certification threshold** higher than the observables
 usually offered as evidence for relational time can reach. Conditional
 evolution is reproduced by a classical clock control. Local clock coherence is
-*maximized* by a state with zero entanglement. Single-basis joint correlation
+*maximized* by a state with zero entanglement — measured, at CHSH 1.86, below
+the classical bound. Single-basis joint correlation
 is beaten by a separable state. What survives is a multi-setting witness — and,
 in the relational-time programme's final run, a single 3-qubit preparation
 certified **entangled, stationary as a quantum ray, and internally evolving
@@ -218,9 +293,12 @@ Three further directions are specified but unexecuted in
 
 ## 8. What this does not claim
 
-- **No new measurements.** A synthesis of two completed programmes plus
-  derivations. The original contributions are the exact identification, the
-  anti-correlation and its quantitative match to IBM-2, and the applied bounds.
+- **One new measurement, not a new programme.** This is a synthesis of two
+  completed programmes plus derivations, with a single dedicated run (IBM-11,
+  53 circuits, two qubits) testing its central claim. That run is archived in
+  the relational-time repository, whose numbering it continues. The original
+  contributions here are the exact identification, the anti-correlation and its
+  hardware test, and the applied bounds.
 - **Nothing about quantum electrodynamics.** No gauge field, photon, or vacuum
   appears in either programme: OAT is a spin model and the Page–Wootters clock
   is engineered qubits. See §7 for the honest route toward field states.
