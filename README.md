@@ -10,6 +10,16 @@ here is a four-run progression, its honest boundaries, and four structural
 results derived at zero QPU cost — three of which constrain the run designs
 before any circuit is written.
 
+> **This is not a cold start.** Two of those four results are the mature
+> answers to concrete engineering questions asked at the beginning of a
+> two-year line of work — *can entangled states carry compressed data off a
+> satellite*, and *does time dilation buy processing headroom* — and both
+> answers are **no**, for reasons now derivable rather than discoverable by
+> another expensive run. [`docs/PROGRAM_HISTORY.md`](docs/PROGRAM_HISTORY.md)
+> is the account: the yin/yang semantic-transport experiments, the TPU
+> campaign and its falsified hypotheses, the astrophysics deviation where
+> D-LinOSS failed its promotion gates, and the eleven QPU runs that followed.
+
 ---
 
 ## The thesis
