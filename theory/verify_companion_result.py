@@ -210,12 +210,136 @@ def check_applied_bounds() -> bool:
     return True
 
 
+# --------------------------------------------------------------------------
+# 5. THE ONE BUDGET
+# --------------------------------------------------------------------------
+
+def _lambda_family(lam: float) -> np.ndarray:
+    """IBM-11's family at d=2: product state (lam=0) -> Bell pair (lam=1).
+
+    |Psi(lam)> = (1/sqrt2) [ |0>_C |0>_S + |1>_C Ry(lam pi)|0>_S ]
+    """
+    c, s = np.cos(lam * np.pi / 2), np.sin(lam * np.pi / 2)
+    psi = np.zeros(4, dtype=complex)                 # index 2*C + S
+    psi[0] = 1 / np.sqrt(2)                          # |0>_C |0>_S
+    psi[2] = c / np.sqrt(2)                          # |1>_C |0>_S
+    psi[3] = s / np.sqrt(2)                          # |1>_C |1>_S
+    return psi
+
+
+def _mu_family(mu: float) -> np.ndarray:
+    """IBM-12's family: A's partner moves from Sa to B as mu: 0 -> pi/2.
+
+    H(A); CX(A,Sa); CRY(2mu, Sa, B); CX(B,Sa)      index 4*A + 2*Sa + B
+    """
+    psi = np.zeros(8, dtype=complex)
+    psi[0] = 1 / np.sqrt(2)                          # |0,0,0>
+    psi[6] = np.cos(mu) / np.sqrt(2)                 # |1,1,0>
+    psi[5] = np.sin(mu) / np.sqrt(2)                 # |1,0,1>  (CX(B,Sa) flips Sa)
+    return psi
+
+
+def _visibility_predictability(psi4: np.ndarray) -> tuple[float, float]:
+    """Jakob-Bergou V and P for the first qubit of a 2-qubit pure state."""
+    m = psi4.reshape(2, 2)                           # [C, S]
+    rho = m @ m.conj().T                             # clock marginal
+    return 2.0 * abs(rho[0, 1]), abs(rho[0, 0] - rho[1, 1]).real
+
+
+def _concurrence_pure(psi4: np.ndarray) -> float:
+    return float(2.0 * abs(np.linalg.det(psi4.reshape(2, 2))))
+
+
+def _pair_concurrence(psi8: np.ndarray, keep: tuple[int, int]) -> float:
+    """Concurrence of the reduced 2-qubit state on `keep` from a 3-qubit pure state."""
+    traced = [q for q in (0, 1, 2) if q not in keep][0]
+    t = psi8.reshape(2, 2, 2).transpose(*keep, traced).reshape(4, 2)
+    return concurrence(t @ t.conj().T)
+
+
+def _depolarize(rho: np.ndarray, p: float) -> np.ndarray:
+    n = rho.shape[0]
+    return (1 - p) * rho + p * np.eye(n) / n
+
+
+def check_one_budget() -> bool:
+    print("THE ONE BUDGET -- every magnitude this programme measured is drawn")
+    print("  on a single conserved unit, and it is spent twice over.\n")
+    ok = True
+
+    print("  (a) WITHIN a pair -- Jakob & Bergou, PRA 68 022107 (2003):")
+    print("      V^2 + P^2 + C^2 = 1.  The clock-marginal witness is W = V/2,")
+    print("      and P = 0 for this family, so (2W)^2 + C^2 = 1 is that")
+    print("      relation's P=0 slice.  IBM-11 measured the curve.\n")
+    print("      lam      W        V        P        C      V^2+P^2+C^2")
+    for lam in (0.0, 0.25, 0.5, 0.75, 1.0):
+        psi = _lambda_family(lam)
+        V, P = _visibility_predictability(psi)
+        C = _concurrence_pure(psi)
+        tot = V ** 2 + P ** 2 + C ** 2
+        ok &= bool(np.isclose(tot, 1.0)) and bool(np.isclose(P, 0.0, atol=1e-12))
+        print(f"      {lam:.2f}   {V/2:.6f} {V:.6f} {P:.6f} {C:.6f}   {tot:.9f}")
+
+    print("\n  (b) ACROSS pairs -- Coffman, Kundu & Wootters, PRA 61 052306 (2000):")
+    print("      C^2(A:Sa) + C^2(A:B) + tau_ABC = 4 det rho_A.  For this family")
+    print("      rho_A is maximally mixed and tau_ABC = 0, so the two")
+    print("      concurrences sum to 1.  IBM-12 measured the curve.\n")
+    print("      mu       C(A:Sa)  C(A:B)   sum of squares")
+    for mu in (0.0, np.pi / 8, np.pi / 4, 3 * np.pi / 8, np.pi / 2):
+        psi = _mu_family(mu)
+        c_asa = _pair_concurrence(psi, (0, 1))
+        c_ab = _pair_concurrence(psi, (0, 2))
+        tot = c_asa ** 2 + c_ab ** 2
+        ok &= bool(np.isclose(tot, 1.0, atol=1e-8))
+        print(f"      {mu:.4f}   {c_asa:.6f} {c_ab:.6f}   {tot:.9f}")
+
+    print("\n  (c) THE SAME UNIT, TWICE.  Local coherence trades against")
+    print("      entanglement with a partner; entanglement with one partner")
+    print("      trades against entanglement with another.  Both totals are 1.")
+
+    print("\n  (d) MIXEDNESS NEVER CREATES HEADROOM.  If decoherence could push")
+    print("      a total above 1 there would be slack to spend.  It cannot --")
+    print("      checked under depolarizing noise, which is why the argument")
+    print("      survives on hardware and is not a pure-state artifact.\n")
+    print("      p      max over lam of V^2+P^2+C^2      max over mu of sum C^2")
+    for p in (0.0, 0.05, 0.2, 0.5, 1.0):
+        best_a, best_b = 0.0, 0.0
+        for k in range(21):
+            lam = k / 20.0
+            m = _lambda_family(lam).reshape(2, 2)
+            rho2 = _depolarize(np.outer(_lambda_family(lam), _lambda_family(lam).conj()), p)
+            rc = np.trace(rho2.reshape(2, 2, 2, 2), axis1=1, axis2=3)
+            V, P = 2 * abs(rc[0, 1]), abs(rc[0, 0] - rc[1, 1]).real
+            best_a = max(best_a, V ** 2 + P ** 2 + concurrence(rho2) ** 2)
+
+            mu = lam * np.pi / 2
+            psi8 = _mu_family(mu)
+            rho3 = _depolarize(np.outer(psi8, psi8.conj()), p)
+            r3 = rho3.reshape(2, 2, 2, 2, 2, 2)
+            r_asa = np.trace(r3, axis1=2, axis2=5).reshape(4, 4)
+            r_ab = np.trace(r3, axis1=1, axis2=4).reshape(4, 4)
+            best_b = max(best_b, concurrence(r_asa) ** 2 + concurrence(r_ab) ** 2)
+        ok &= bool(best_a <= 1.0 + 1e-9 and best_b <= 1.0 + 1e-9)
+        print(f"      {p:.2f}   {best_a:.9f}                    {best_b:.9f}")
+
+    print(f"\n  no total ever exceeds 1 -> {ok}")
+    print("  => THE CONSEQUENCE.  A Page-Wootters clock is a good clock in")
+    print("     proportion to C(clock : its own system).  Any magnitude offered")
+    print("     as a shared time between two good clocks is already spent --")
+    print("     by (a) against the clock's own local coherence, by (b) against")
+    print("     the other partner.  No quantity on this budget can be a shared")
+    print("     clock.  That is what thirteen runs measured, and it is why the")
+    print("     open question (README section 8) is about a quantity that is")
+    print("     not a magnitude at all.\n")
+    return bool(ok)
+
+
 if __name__ == "__main__":
     print("=" * 74)
-    print("One law, and a witness that runs backwards")
+    print("One budget: why correlation magnitude cannot be a shared clock")
     print("=" * 74 + "\n")
-    out = [check_one_law(), check_anticorrelation(),
-           check_two_nulls(), check_applied_bounds()]
+    out = [check_one_law(), check_anticorrelation(), check_two_nulls(),
+           check_one_budget(), check_applied_bounds()]
     print("=" * 74)
     print(f"all checks pass: {all(out)}")
     print("=" * 74)

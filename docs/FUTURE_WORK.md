@@ -3,6 +3,14 @@
 Three directions that follow from the companion result. None has been run, and
 each is written to be attackable rather than plausible.
 
+> **These are not the priority.** The one direction that bears directly on the
+> open question — whether the Aharonov–Anandan geometric phase is on the
+> entanglement budget, and therefore whether *any* quantity can be a shared
+> temporal reference between two good clocks — is
+> [`NEXT_RUN_PROPOSAL.md`](NEXT_RUN_PROPOSAL.md). It is cheap, decisive in both
+> directions, and should be run before anything below. The three here are
+> broader programme directions rather than tests of the central claim.
+
 A fourth — a three-clock relational network with no privileged frame — belongs
 to the relational-time programme rather than here, since it sharpens that
 programme's own limitation about the clock being chosen rather than derived. It

@@ -1,26 +1,36 @@
 cff-version: 1.2.0
 message: "If you use this work, please cite it as below."
-title: "One Law, and a Witness That Runs Backwards"
+title: "One Budget: Why Correlation Magnitude Cannot Be a Shared Clock"
 abstract: >-
-  A synthesis of two independently-run hardware programmes, with one dedicated
-  hardware run of its own. Both are shown to measure the same law: coherence surviving as
-  a product of half-angle state overlaps, one factor per party that has
-  acquired distinguishing information -- one programme measuring it against
-  coupling angle, the other against time. Read on a marginal, that law produces
-  an observable which is not merely uninformative about entanglement but
-  suppressed by it, since for a bipartite pure state the marginal entropy is
-  the entanglement entropy. A zero-entanglement product state therefore scores
-  higher than a maximally entangled history state at every clock dimension, and
-  the exact d=4 ratio of 4.24 reproduces the 4.2x measured on hardware in an
-  adversarial run. Two exact structural nulls, one on a separable state and one
-  on a maximally entangled state, follow from the same mechanism. Certification
-  of quantum structure therefore requires agreement across incompatible
-  measurements, a conclusion reached independently by both programmes and by a
-  third line elsewhere. Includes the derived Holevo and relativistic
-  storage/throughput bounds that answer the engineering questions the line
-  began with.
+  A synthesis of two independently-run hardware programmes, with two dedicated
+  hardware runs of its own. Both programmes are shown to measure the same law --
+  coherence surviving as a product of half-angle state overlaps, one factor per
+  party that has acquired distinguishing information -- and every correlation
+  magnitude either measured is drawn on a single conserved unit, spent twice
+  over: once between a subsystem's local coherence and its entanglement with a
+  partner (Jakob-Bergou complementarity, 2003), once between its entanglement
+  with one partner and with another (Coffman-Kundu-Wootters monogamy, 2000).
+  Both totals are exactly 1, and depolarizing noise never pushes either above
+  it, so the accounting is stronger on hardware than on paper. The consequence:
+  a Page-Wootters clock is a good clock in proportion to the entanglement it
+  spends on its own system, so any magnitude offered as a shared time between
+  two good clocks is already spent, and no quantity on this budget can be a
+  shared clock. Both trade-offs were then measured as continuous hardware
+  curves on ibm_marrakesh -- IBM-11 (53 circuits, 9/9 pre-registered gates,
+  witness versus CHSH at r = -0.9573, with the witness-maximising state
+  producing no Bell violation at all) and IBM-12 (135 circuits, 6/6 gates,
+  clock quality versus synchronisability at r = -0.9833, both endpoints
+  reaching exactly zero). The identities are standard and are attributed as
+  such; the measured curves are the contribution. Also includes the two exact
+  structural nulls, the independent convergence with a fourth line, and the
+  derived Holevo and relativistic storage/throughput bounds that answer the
+  engineering questions the line began with. The open question is stated
+  explicitly: the Aharonov-Anandan geometric phase is not a magnitude and is
+  reparameterisation-invariant, which is the invariance a shared time would
+  require; whether it is also on the budget is untested, and a run designed to
+  settle it in either direction is specified.
 type: software
-version: 0.3.0
+version: 0.4.0
 license: MIT
 authors:
   - family-names: "O'Neill"
