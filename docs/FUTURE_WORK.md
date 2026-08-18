@@ -3,13 +3,26 @@
 Three directions that follow from the companion result. None has been run, and
 each is written to be attackable rather than plausible.
 
-> **These are not the priority.** The one direction that bears directly on the
-> open question — whether the Aharonov–Anandan geometric phase is on the
-> entanglement budget, and therefore whether *any* quantity can be a shared
-> temporal reference between two good clocks — is
-> [`NEXT_RUN_PROPOSAL.md`](NEXT_RUN_PROPOSAL.md). It is cheap, decisive in both
-> directions, and should be run before anything below. The three here are
-> broader programme directions rather than tests of the central claim.
+> **These are not the priority.** Two runs are, and neither is below.
+>
+> **(a) The geometric phase** — whether the Aharonov–Anandan phase, which is
+> *not* a magnitude, escapes the entanglement budget and could therefore serve
+> as a shared temporal reference: [`NEXT_RUN_PROPOSAL.md`](NEXT_RUN_PROPOSAL.md).
+> Cheap and decisive in both directions, but it still has to navigate a
+> visibility confound.
+>
+> **(b) Two genuine `d > 2` clocks, one system each** —
+> [`AQ_PAGE_WOOTTERS_IBM_13_PROPOSAL.md`](https://github.com/IllI/relational-time-ibm-quantum/blob/main/docs/AQ_PAGE_WOOTTERS_IBM_13_PROPOSAL.md),
+> in the relational-time programme whose numbering it continues. Cleaner
+> readout and a confirmed literature gap. Its derivation already killed the
+> obvious shared-system design at zero shot cost and found a live result: both
+> pairs stay certified up to a crossover, so **a good clock can be partly read
+> by another without losing its own certification** — a weaker no-go than §4's
+> budget, and `F + V²` runs `1.00 → 1.33` rather than staying at 1. Where the
+> budget says *never*, this says *up to a point*, and the point is empirical.
+>
+> The three directions here are broader programme directions rather than tests
+> of the central claim.
 
 A fourth — a three-clock relational network with no privileged frame — belongs
 to the relational-time programme rather than here, since it sharpens that
