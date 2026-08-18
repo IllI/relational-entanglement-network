@@ -13,7 +13,7 @@ partner and with another. Both totals are exactly 1.
 The consequence is the point. A Page–Wootters clock is a good clock in
 proportion to its entanglement with its own system. Any magnitude offered as a
 *shared time* between two good clocks is therefore already spent. **No quantity
-on this budget can be a shared clock** — and thirteen hardware runs are the
+on this budget can be a shared clock** — and fifteen hardware runs are the
 record of that budget being exhausted, observable by observable.
 
 Both trade-offs were derived here, then measured on `ibm_marrakesh`:
@@ -31,7 +31,7 @@ The companions:
   [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21878783.svg)](https://doi.org/10.5281/zenodo.21878783)
 - **[relational-time-ibm-quantum](https://github.com/IllI/relational-time-ibm-quantum)**
   — whether relational time leaves a quantum signature distinguishable from its
-  classical mimic; thirteen pre-registered runs, 74 jobs. Coherence measured
+  classical mimic; fifteen pre-registered runs, 77 jobs. Coherence measured
   against **time**.
   [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21878786.svg)](https://doi.org/10.5281/zenodo.21878786)
 
