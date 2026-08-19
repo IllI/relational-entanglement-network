@@ -351,56 +351,59 @@ state. What survives is a multi-setting witness — and, in IBM-10, a single
 3-qubit preparation certified **entangled, stationary as a quantum ray, and
 internally evolving simultaneously**.
 
-## 8. The open door: a quantity that is not a magnitude
+## 8. The door is closed — and the curve became an instrument
 
-Section 4 closes the magnitude class. It does not close the question, because
-**the geometric phase is not a magnitude.**
+The geometric phase was the last candidate: not a magnitude, but a property of
+the path in projective Hilbert space. **It is on the budget too**, and the
+question needed rebuilding before it could be answered.
 
-The Aharonov–Anandan phase is a property of the *path* traced in projective
-Hilbert space, and it is **reparameterisation-invariant by construction** — it
-depends on the loop, not on the rate at which the loop is traversed. That is
-precisely the invariance a shared time between two clocks running at different
-rates would have to possess. It is also the one property no magnitude in §4
-has: concurrence and visibility are functions of the instantaneous state, blind
-to the path that produced it.
+**There is no single geometric phase for a mixed state.** There are two
+inequivalent published constructions — the interferometric phase
+([Sjöqvist *et al.*, PRL **85**, 2845, 2000](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.85.2845))
+and the Uhlmann holonomy
+([Viyuela *et al.*, npj QI **3**, 55, 2017](https://www.nature.com/articles/s41534-017-0056-9)).
+**Both depend on entanglement.** Measured on `ibm_marrakesh` (IBM-15, 56
+circuits): they diverge non-monotonically, peaking at `C ≈ 0.77`, with hardware
+reproducing the shape at `r = 0.9779` and the peak location exactly.
 
-**Why this is a question and not a claim.** Whether the AA phase is *also* on
-the budget is not something we know. The geometric phase of entangled states is
-well studied — Sjöqvist's two-particle geometric phase for entangled spins
-depends on the degree of entanglement, so the phase is certainly not
-*independent* of it. What is unclear is whether that dependence is a **trade**
-in the §4 sense — a conserved total that spending on one pair removes from
-another — or merely a functional dependence with no monogamy structure. Those
-are different, and only the first would close the door.
+**A first attempt at this was retracted in full.** It claimed the phase's value
+was budget-free; the "loop" turned out to be diagonal, making the result
+arithmetic rather than geometric. A Haar-random control — which should have run
+first — destroys it. The retraction and its reasoning are kept in the
+relational-time repository rather than quietly removed, because the failure
+mode is instructive: a pretty number appeared and the control was skipped.
 
-**What the literature appears to contain, and not.** The three neighbouring
-areas are each active: the AA phase of entangled states; relational /
-Page–Wootters time; and geometric-phase metrology, including recent work on
-geometric-phase amplification in clock interferometers. Quantum clock
-synchronisation via pre-shared entanglement (Jozsa *et al.*, 2000, and
-successors) *consumes* entanglement and classical communication — it does not
-address clocks that have already spent their budget on their own systems. The
-specific combination — magnitude is monogamy-constrained and therefore cannot
-synchronise two perfect Page–Wootters clocks, while the AA phase is
-reparameterisation-invariant and path-dependent and therefore might — does not
-appear to have been developed as a concrete proposal under the obvious search
-terms. **Stated as a survey result, not a priority claim:** absence under
-search terms is weak evidence, and six times in this programme a "discovery"
-turned out to be a known theorem. The first job of the next run is to be
-attackable.
+**The multipartite case is closed too.** `τ_ABC` is the CKW *remainder*, so
+asking whether it escapes the budget is asking whether the slack escapes the
+accounting that defines it. A residual that looks shareable across many parties
+turns out to be `4 det ρ_A` relabelled — random states carry no pairwise
+entanglement for it to trade against (pairwise share: 50% at `n = 3`, **0.01%**
+at `n = 6`). Only `n = 3` is a real trade, and there GHZ and W show it trading
+against pairwise terms. No hardware was needed.
 
-**The run that would settle it** is specified in
-[`docs/NEXT_RUN_PROPOSAL.md`](docs/NEXT_RUN_PROPOSAL.md): take IBM-12's
-three-qubit family around a closed loop at each `μ` and measure the AA phase of
-both pairs interferometrically, with the loop built so the dynamical phase
-vanishes by construction. It is decisive in both directions. If the phase
-tracks `C²`, it is on the budget and the door closes — which would be the
-seventh known theorem and worth knowing. If it stays flat while the
-concurrences swap completely, it is the first quantity this programme has
-measured that is **not** drawn on the budget.
+### What survives: the curve as an instrument
 
-Three further directions are specified but unexecuted in
-[`docs/FUTURE_WORK.md`](docs/FUTURE_WORK.md).
+Nothing escapes the budget — so use it. Because the trade-off is tight and
+quantitative, a measured phase **constrains the residual entanglement**:
+
+- the two constructions have **complementary sensitivity** (Uhlmann peaks at
+  `C = 0.587`, interferometric at `C = 0.970`), so together they meter the
+  whole range at `δC ~ 0.007–0.03`, using **one** ancilla setting pair against
+  the **nine** a tomographic reconstruction needs;
+- the phase reads the local Bloch length `r`, **not** `C`. Dephasing destroys
+  `C` while leaving `r` untouched — `C` falls `0.70 → 0.14` with the phase
+  fixed — so `C_est = √(1−r²)` holds *only* on the pure-state manifold, and the
+  **gap between phase-inferred and tomographic `C` witnesses mixedness**.
+
+That is the operational content the programme ends with, and it agrees with the
+surrounding literature: Svozil's entangled clock yields temporal structure only
+in the **joint** coincidence record; extended Page–Wootters models yield an
+**informational arrow**, not a shared phase. **The recoverable information is
+the trajectory along the budget, never a quantity that escapes it.**
+
+Specified in
+[`AQ_PAGE_WOOTTERS_IBM_16_PROPOSAL`](https://github.com/IllI/relational-time-ibm-quantum/blob/main/hardware/pw_ibm16_phase_as_meter.py);
+further directions in [`docs/FUTURE_WORK.md`](docs/FUTURE_WORK.md).
 
 ## 9. Why the applied version does not work
 
